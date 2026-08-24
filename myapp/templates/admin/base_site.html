@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+
+{% block branding %}
+  <h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+      <!-- Custom SVG/Logo or Styled Text -->
+      <span style="color: #6366f1; font-weight: bold;">GCK</span> Admin
+    </a>
+  </h1>
+{% endblock %}
+
+{% block extrastyle %}
+  <style>
+    /* Custom brand accent colors */
+    :root {
+      --primary: #4f46e5;
+      --secondary: #312e81;
+      --accent: #38bdf8;
+    }
+  </style>
+{% endblock %}

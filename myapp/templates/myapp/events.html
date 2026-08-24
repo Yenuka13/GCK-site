@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cīphər | System Events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js and GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        .dot-matrix {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .glass-card {
+            background: rgba(10, 10, 12, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0;
+            background: #050507;
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #050507; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen font-mono antialiased dot-matrix selection:bg-white selection:text-black overflow-x-hidden">
+    
+    <!-- 3D Interactive Background Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Minimalist Navigation Header (Matching Reference Style) -->
+    <header class="fixed top-0 left-0 w-full px-10 py-8 flex justify-between items-center z-50 mix-blend-difference">
+        <a href="/" class="text-2xl font-bold tracking-tighter text-white font-sans uppercase">
+            cīphər
+        </a>
+        <nav class="hidden md:flex space-x-12 text-xs uppercase tracking-widest text-slate-400 font-sans">
+            <a href="/" class="hover:text-white transition-colors">Works</a>
+            <a href="/events/" class="text-white font-semibold border-b border-white pb-1">Talents</a>
+            <a href="#" class="hover:text-white transition-colors">Contact</a>
+            <a href="#" class="hover:text-white transition-colors">About</a>
+        </nav>
+        <div>
+            {% if user.is_staff %}
+                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">SYS_CONSOLE</a>
+            {% else %}
+                <a href="/admin/login/?next=/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">LOGIN</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Main Content Layer -->
+    <main class="max-w-7xl mx-auto pt-44 pb-32 px-6 relative z-10">
+        <div class="mb-16 border-b border-white/10 pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+            <div>
+                <span class="text-[10px] text-slate-400 tracking-widest uppercase">// SYSTEM PIPELINE SCHEDULE</span>
+                <h1 class="text-3xl md:text-5xl font-light text-white font-sans tracking-tight mt-1">
+                    SESSIONS &amp; EXHIBITS
+                </h1>
+            </div>
+            <div class="text-xs text-slate-400 tracking-widest font-sans">
+                ACTIVE NODES: <span class="text-white font-bold">{{ events|length }}</span>
+            </div>
+        </div>
+
+        {% if events %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for event in events %}
+                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between relative group">
+                        <div class="absolute top-4 right-4 text-[9px] text-slate-500 font-mono tracking-widest">00{{ forloop.counter }}</div>
+
+                        <div>
+                            {% if event.image_url %}
+                                <div class="relative overflow-hidden rounded-xl mb-5 border border-white/10 group-hover:border-white/30 transition-colors">
+                                    <img src="{{ event.image_url }}" alt="{{ event.title }}" class="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-700">
+                                </div>
+                            {% else %}
+                                <div class="w-full h-52 bg-white/5 rounded-xl mb-5 flex flex-col items-center justify-center border border-white/10 text-slate-400">
+                                    <span class="text-sm font-mono tracking-wider">[FEED_OFFLINE]</span>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="inline-block px-2.5 py-1 bg-white/5 border border-white/10 rounded text-[10px] font-medium text-slate-300 mb-3 tracking-widest uppercase font-sans">
+                                {{ event.date|date:"Y-m-d // H:i" }}
+                            </div>
+                            
+                            <h2 class="text-lg font-bold mb-2 text-white font-sans tracking-tight">{{ event.title }}</h2>
+                            <p class="text-slate-400 text-xs mb-6 line-clamp-3 leading-relaxed font-sans">{{ event.description }}</p>
+                        </div>
+
+                        <div class="pt-4 border-t border-white/10 flex justify-between items-center text-[11px]">
+                            <span class="text-slate-400 flex items-center gap-1.5 font-sans">
+                                📍 {{ event.location }}
+                            </span>
+                            
+                            {% if event.rsvp_link %}
+                                <a href="{{ event.rsvp_link }}" target="_blank" rel="noopener noreferrer" class="action-btn px-4 py-2 rounded text-white font-bold text-[10px] tracking-wider uppercase inline-block">
+                                    RSVP ↗
+                                </a>
+                            {% else %}
+                                <button disabled class="opacity-30 cursor-not-allowed action-btn px-4 py-2 rounded text-slate-500 font-bold text-[10px] tracking-wider uppercase">
+                                    CLOSED
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="glass-card max-w-md mx-auto p-12 rounded-3xl text-center">
+                <div class="text-2xl text-slate-400 mb-3">∅</div>
+                <h3 class="text-sm font-bold text-white mb-2 font-sans tracking-wider">NO SCHEDULED ENTRIES</h3>
+                <p class="text-slate-400 text-xs font-sans">The pipeline is currently empty. Check back for upcoming session drops.</p>
+            </div>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-7xl mx-auto px-10 py-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-[11px] text-slate-500 relative z-10 font-sans">
+        <div>001 // EVIDENS DE BEAUTE</div>
+        <div class="mt-2 md:mt-0 tracking-widest uppercase">DISCOVER MORE</div>
+    </footer>
+
+    <!-- Three.js Elliptical 3D Ring Animation Script -->
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        const ringGroup = new THREE.Group();
+        const totalNodes = 12;
+        const radiusX = 8.5;  // Ellipse horizontal spread
+        const radiusZ = 3.5;  // Ellipse depth spread
+
+        // Generate clean wireframe cards floating in an elliptical ring path
+        for (let i = 0; i < totalNodes; i++) {
+            const angle = (i / totalNodes) * Math.PI * 2;
+            const x = Math.cos(angle) * radiusX;
+            const z = Math.sin(angle) * radiusZ;
+            const y = Math.sin(angle * 2) * 0.5;
+
+            const geometry = new THREE.PlaneGeometry(1.4, 1.8);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0xffffff, 
+                wireframe: true, 
+                transparent: true, 
+                opacity: 0.12 
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+            
+            mesh.position.set(x, y, z);
+            mesh.lookAt(0, y, 0);
+            ringGroup.add(mesh);
+        }
+
+        scene.add(ringGroup);
+        camera.position.z = 9;
+
+        // Mouse tracking for subtle viewpoint tilt
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetRotY = 0;
+        let targetRotX = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - window.innerWidth / 2) * 0.0003;
+            mouseY = (e.clientY - window.innerHeight / 2) * 0.0003;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            targetRotY += (mouseX - targetRotY) * 0.05;
+            targetRotX += (mouseY - targetRotX) * 0.05;
+
+            ringGroup.rotation.y += 0.0015 + targetRotY;
+            ringGroup.rotation.x = targetRotX;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

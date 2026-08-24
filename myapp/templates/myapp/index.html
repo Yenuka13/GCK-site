@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cīphər | Tech & Optics Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        .dot-matrix {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .glass-card {
+            background: rgba(10, 10, 12, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0;
+            background: #050507;
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #050507; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen overflow-x-hidden font-mono antialiased dot-matrix selection:bg-white selection:text-black">
+
+    <div id="canvas-container"></div>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 w-full px-10 py-8 flex justify-between items-center z-50 mix-blend-difference">
+        <a href="/" class="text-2xl font-bold tracking-tighter text-white font-sans uppercase">
+            cīphər
+        </a>
+        <nav class="hidden md:flex space-x-12 text-xs uppercase tracking-widest text-slate-400 font-sans">
+            <a href="/events/" class="hover:text-white transition-colors">Works</a>
+            <a href="#" class="hover:text-white transition-colors">Systems</a>
+            <a href="#" class="hover:text-white transition-colors">Optics</a>
+        </nav>
+        <div>
+            {% if user.is_staff %}
+                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">SYS_CONSOLE</a>
+            {% else %}
+                <a href="/admin/login/?next=/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">AUTH_LOGIN</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Hero Content -->
+    <main class="min-h-screen flex items-center justify-center px-4 pt-20 relative z-10">
+        <div class="glass-card max-w-3xl w-full p-8 md:p-14 rounded-3xl relative overflow-hidden">
+            <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-3 text-xs text-slate-400 font-sans">
+                <span>REC ● 4K 60FPS</span>
+                <span>ISO 800 // f/1.8</span>
+                <span>LATENCY: 12ms</span>
+            </div>
+
+            <span class="inline-block px-3 py-1 mb-4 text-[10px] font-bold tracking-widest text-slate-300 uppercase rounded bg-white/5 border border-white/10 font-sans">
+                IT &amp; OPTICAL COMPUTING ARCHITECTURE
+            </span>
+
+            <h1 class="text-3xl md:text-5xl font-light mb-6 text-white leading-tight font-sans tracking-tight">
+                COMPUTING, OPTICS &amp; MEDIA INFRASTRUCTURE
+            </h1>
+            <p class="text-slate-400 text-sm md:text-base mb-8 max-w-xl leading-relaxed font-sans">
+                Next-gen platform for IT development, camera engineering, broadcast technology, and high-performance computing systems.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-start items-center">
+                <a href="/events/" class="action-btn px-6 py-3 rounded-xl font-bold text-white text-xs tracking-widest uppercase w-full sm:w-auto text-center font-sans">
+                    EXECUTE_EVENTS.SH ↗
+                </a>
+                <a href="/admin/" class="px-6 py-3 rounded-xl font-semibold border border-white/15 hover:border-white/50 transition w-full sm:w-auto text-xs text-slate-300 tracking-widest uppercase text-center font-sans">
+                    SYS_CONSOLE
+                </a>
+            </div>
+
+            <!-- Specs Grid -->
+            <div class="grid grid-cols-3 gap-4 pt-8 mt-8 border-t border-white/10 text-left font-sans">
+                <div>
+                    <p class="text-lg font-bold text-white">RAW / 10-BIT</p>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Video Stream</p>
+                </div>
+                <div>
+                    <p class="text-lg font-bold text-slate-300">PY3.12 / DJ6.1</p>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Core Tech Stack</p>
+                </div>
+                <div>
+                    <p class="text-lg font-bold text-slate-400">NVMe / GbE</p>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Network Pipeline</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 3D Camera Lens Gear Scene -->
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Lens Ring System
+        const lensGroup = new THREE.Group();
+
+        // Outer Focus Ring
+        const ringGeo1 = new THREE.TorusGeometry(3, 0.12, 16, 100);
+        const ringMat1 = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.15 });
+        const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
+        lensGroup.add(ring1);
+
+        // Inner Aperture Ring
+        const ringGeo2 = new THREE.TorusGeometry(2.2, 0.06, 16, 80);
+        const ringMat2 = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.1 });
+        const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
+        ring2.rotation.x = Math.PI / 4;
+        lensGroup.add(ring2);
+
+        // Core Glass Lens
+        const lensGeo = new THREE.SphereGeometry(1.5, 32, 16);
+        const lensMat = new THREE.MeshPhysicalMaterial({
+            color: 0x111827, transmission: 0.9, opacity: 0.2, transparent: true, roughness: 0.1
+        });
+        const lensMesh = new THREE.Mesh(lensGeo, lensMat);
+        lensGroup.add(lensMesh);
+
+        scene.add(lensGroup);
+
+        camera.position.z = 6.5;
+
+        // Interactive Camera Pitch/Yaw
+        let targetX = 0, targetY = 0;
+        window.addEventListener('mousemove', (e) => {
+            targetX = (e.clientX / window.innerWidth - 0.5) * 0.4;
+            targetY = (e.clientY / window.innerHeight - 0.5) * 0.4;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            ring1.rotation.z += 0.003;
+            ring2.rotation.z -= 0.005;
+            lensGroup.rotation.y += 0.0015;
+
+            camera.position.x += (targetX - camera.position.x) * 0.05;
+            camera.position.y += (-targetY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

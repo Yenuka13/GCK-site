@@ -53,7 +53,7 @@
         </nav>
         <div>
             {% if user.is_staff %}
-                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">SYS_CONSOLE</a>
+                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">Login</a>
             {% else %}
                 <a href="/admin/login/?next=/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">AUTH_LOGIN</a>
             {% endif %}

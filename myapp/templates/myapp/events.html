@@ -64,14 +64,14 @@
             cīphər
         </a>
         <nav class="hidden md:flex space-x-12 text-xs uppercase tracking-widest text-slate-400 font-sans">
-            <a href="/" class="hover:text-white transition-colors">Works</a>
-            <a href="/events/" class="text-white font-semibold border-b border-white pb-1">Talents</a>
-            <a href="#" class="hover:text-white transition-colors">Contact</a>
-            <a href="#" class="hover:text-white transition-colors">About</a>
+            <a href="/" class="hover:text-white transition-colors">Home</a>
+            <a href="/events/" class="text-white font-semibold border-b border-white pb-1">Events</a>
+            <!--<a href="#" class="hover:text-white transition-colors">Contact</a>-->
+            <a href="/about/" class="hover:text-white transition-colors">About</a>
         </nav>
         <div>
             {% if user.is_staff %}
-                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">SYS_CONSOLE</a>
+                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">Login</a>
             {% else %}
                 <a href="/admin/login/?next=/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">LOGIN</a>
             {% endif %}
@@ -124,11 +124,11 @@
                             
                             {% if event.rsvp_link %}
                                 <a href="{{ event.rsvp_link }}" target="_blank" rel="noopener noreferrer" class="action-btn px-4 py-2 rounded text-white font-bold text-[10px] tracking-wider uppercase inline-block">
-                                    RSVP ↗
+                                    REGISTER
                                 </a>
                             {% else %}
                                 <button disabled class="opacity-30 cursor-not-allowed action-btn px-4 py-2 rounded text-slate-500 font-bold text-[10px] tracking-wider uppercase">
-                                    CLOSED
+                                    COMING SOON
                                 </button>
                             {% endif %}
                         </div>

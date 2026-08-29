@@ -59,3 +59,19 @@ class TeamMember(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.get_role_category_display()})"
+
+
+class HomePageContent(models.Model):
+    hero_title = models.CharField(
+        max_length=200, default="Welcome back to GCK Media Control Panel")
+    hero_subtitle = models.CharField(
+        max_length=300, default="Manage your systems, media, and events seamlessly.")
+    welcome_banner_text = models.TextField(
+        default="System operational and ready for deployment.")
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "Home Page Configuration"
+
+    class Meta:
+        verbose_name_plural = "Home Page Configuration"

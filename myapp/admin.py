@@ -1,5 +1,3 @@
-# myapp/admin.py
-from .models import Event, AboutPageContent, TeamMember
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -9,7 +7,7 @@ from unfold.admin import ModelAdmin
 from unfold.forms import UserChangeForm, UserCreationForm, AdminPasswordChangeForm
 from simple_history.admin import SimpleHistoryAdmin
 
-from .models import Event, AboutPageContent
+from .models import Event, AboutPageContent, TeamMember, HomePageContent
 
 
 # --- EVENT ADMIN ---
@@ -34,6 +32,21 @@ class EventAdmin(ModelAdmin, SimpleHistoryAdmin):
 @admin.register(AboutPageContent)
 class AboutPageAdmin(ModelAdmin):
     list_display = ('title', 'updated_at')
+
+
+# --- HOME PAGE ADMIN ---
+@admin.register(HomePageContent)
+class HomePageAdmin(ModelAdmin):
+    list_display = ('hero_title', 'updated_at')
+
+
+# --- TEAM MEMBER ADMIN ---
+@admin.register(TeamMember)
+class TeamMemberAdmin(ModelAdmin):
+    list_display = ('name', 'role_category', 'position', 'display_order')
+    list_filter = ('role_category',)
+    search_fields = ('name', 'position')
+    list_editable = ('display_order',)
 
 
 # --- CUSTOM USER ADMIN ---
@@ -71,17 +84,6 @@ class CustomUserAdmin(BaseUserAdmin, ModelAdmin):
             '<a class="bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-2.5 py-1 rounded transition-colors inline-block" href="{}">Delete</a>',
             delete_url
         )
-
-
-# Add this registration to your existing myapp/admin.py
-
-
-@admin.register(TeamMember)
-class TeamMemberAdmin(ModelAdmin):
-    list_display = ('name', 'role_category', 'position', 'display_order')
-    list_filter = ('role_category',)
-    search_fields = ('name', 'position')
-    list_editable = ('display_order',)
 
 
 # Re-register UserAdmin with custom configuration

@@ -64,13 +64,12 @@
             <a href="/" class="text-white font-semibold border-b border-white pb-1">Home</a>
             <a href="/events/" class="hover:text-white transition-colors">Events</a>
             <a href="/about/" class="hover:text-white transition-colors">About</a>
-            <!-- <a href="#" class="hover:text-white transition-colors">Optics</a> -->
         </nav>
         <div>
             {% if user.is_staff %}
-                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">Login</a>
+                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest font-sans">Dashboard</a>
             {% else %}
-                <a href="/admin/login/?next=/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">AUTH_LOGIN</a>
+                <a href="/admin/login/?next=/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest font-sans">AUTH_LOGIN</a>
             {% endif %}
         </div>
     </header>
@@ -85,14 +84,14 @@
             </div>
 
             <span class="inline-block px-3 py-1 mb-4 text-[10px] font-bold tracking-widest text-slate-300 uppercase rounded bg-white/5 border border-white/10 font-sans">
-                IT &amp; OPTICAL COMPUTING ARCHITECTURE
+                {{ home_content.badge_text }}
             </span>
 
             <h1 class="text-3xl md:text-5xl font-light mb-6 text-white leading-tight font-sans tracking-tight">
-                COMPUTING, OPTICS &amp; MEDIA INFRASTRUCTURE
+                {{ home_content.hero_title }}
             </h1>
             <p class="text-slate-400 text-sm md:text-base mb-8 max-w-xl leading-relaxed font-sans">
-                Next-gen platform for IT development, camera engineering, broadcast technology, and high-performance computing systems.
+                {{ home_content.hero_subtitle }}
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-start items-center">

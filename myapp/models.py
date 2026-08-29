@@ -75,3 +75,19 @@ class HomePageContent(models.Model):
 
     class Meta:
         verbose_name_plural = "Home Page Configuration"
+
+
+class HomePageContent(models.Model):
+    badge_text = models.CharField(
+        max_length=150, default="IT & OPTICAL COMPUTING ARCHITECTURE")
+    hero_title = models.CharField(
+        max_length=250, default="COMPUTING, OPTICS & MEDIA INFRASTRUCTURE")
+    hero_subtitle = models.TextField(
+        default="Next-gen platform for IT development, camera engineering, broadcast technology, and high-performance computing systems.")
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "Home Page Configuration"
+
+    class Meta:
+        verbose_name_plural = "Home Page Configuration"

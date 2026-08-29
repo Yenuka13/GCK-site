@@ -1,3 +1,4 @@
+from .models import HomePageContent, Event, TeamMember
 from django.shortcuts import render
 from django.utils import timezone
 from .models import Event, AboutPageContent, TeamMember  # Removed TeamModel
@@ -43,3 +44,21 @@ def about_view(request):
 
     # Renders template from the myapp subfolder
     return render(request, 'myapp/about.html', context)
+
+
+def home(request):
+    """Renders the main landing homepage with dynamic content."""
+    home_content = HomePageContent.objects.first()
+    if not home_content:
+        home_content = HomePageContent.objects.create()
+
+    events = Event.objects.all().order_by('-date')[:3]
+    team_members = TeamMember.objects.all().order_by('display_order')
+
+    context = {
+        'home_content': home_content,
+        'events': events,
+        'team_members': team_members,
+    }
+    # Make sure this matches your actual template location (e.g., 'myapp/index.html' or 'index.html')
+    return render(request, 'myapp/index.html', context)

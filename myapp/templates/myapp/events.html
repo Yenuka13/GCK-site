@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GCKMU | Events</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Three.js and GSAP for smooth animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         .dot-matrix {
@@ -58,32 +57,31 @@
     <!-- 3D Interactive Background Canvas -->
     <div id="canvas-container"></div>
 
-    <!-- Minimalist Navigation Header (Matching Reference Style) -->
-    <header class="fixed top-0 left-0 w-full px-10 py-8 flex justify-between items-center z-50 mix-blend-difference">
-        <a href="/" class="text-2xl font-bold tracking-tighter text-white font-sans uppercase">
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 w-full px-4 sm:px-10 py-6 sm:py-8 flex justify-between items-center z-50 mix-blend-difference">
+        <a href="/" class="text-xl sm:text-2xl font-bold tracking-tighter text-white font-sans uppercase">
             GCK Media Unit
         </a>
         <nav class="hidden md:flex space-x-12 text-xs uppercase tracking-widest text-slate-400 font-sans">
             <a href="/" class="hover:text-white transition-colors">Home</a>
             <a href="/events/" class="text-white font-semibold border-b border-white pb-1">Events</a>
-            <!--<a href="#" class="hover:text-white transition-colors">Contact</a>-->
             <a href="/about/" class="hover:text-white transition-colors">About</a>
         </nav>
         <div>
             {% if user.is_staff %}
-                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">Login</a>
+                <a href="/admin/" class="action-btn px-3 sm:px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest font-sans">Dashboard</a>
             {% else %}
-                <a href="/admin/login/?next=/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">LOGIN</a>
+                <a href="/admin/login/?next=/admin/" class="action-btn px-3 sm:px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest font-sans">AUTH_LOGIN</a>
             {% endif %}
         </div>
     </header>
 
     <!-- Main Content Layer -->
-    <main class="max-w-7xl mx-auto pt-44 pb-32 px-6 relative z-10">
+    <main class="max-w-7xl mx-auto pt-36 sm:pt-44 pb-32 px-4 sm:px-6 relative z-10">
         <div class="mb-16 border-b border-white/10 pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
             <div>
                 <span class="text-[10px] text-slate-400 tracking-widest uppercase">// SYSTEM PIPELINE SCHEDULE</span>
-                <h1 class="text-3xl md:text-5xl font-light text-white font-sans tracking-tight mt-1">
+                <h1 class="text-2xl sm:text-3xl md:text-5xl font-light text-white font-sans tracking-tight mt-1">
                     SESSIONS &amp; EXHIBITS
                 </h1>
             </div>
@@ -145,9 +143,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="max-w-7xl mx-auto px-10 py-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-[11px] text-slate-500 relative z-10 font-sans">
-        <div>001 // EVIDENS DE BEAUTE</div>
-        <div class="mt-2 md:mt-0 tracking-widest uppercase">DISCOVER MORE</div>
+    <footer class="max-w-7xl mx-auto px-6 sm:px-10 py-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-[11px] text-slate-500 relative z-10 font-sans gap-2">
+        <div>001 // GCK MEDIA UNIT</div>
+        <div class="tracking-widest uppercase">SYSTEM ACTIVE</div>
     </footer>
 
     <!-- Three.js Elliptical 3D Ring Animation Script -->
@@ -166,7 +164,6 @@
         const radiusX = 8.5;  // Ellipse horizontal spread
         const radiusZ = 3.5;  // Ellipse depth spread
 
-        // Generate clean wireframe cards floating in an elliptical ring path
         for (let i = 0; i < totalNodes; i++) {
             const angle = (i / totalNodes) * Math.PI * 2;
             const x = Math.cos(angle) * radiusX;
@@ -190,7 +187,6 @@
         scene.add(ringGroup);
         camera.position.z = 9;
 
-        // Mouse tracking for subtle viewpoint tilt
         let mouseX = 0;
         let mouseY = 0;
         let targetRotY = 0;

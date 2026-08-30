@@ -56,8 +56,8 @@
     <div id="canvas-container"></div>
 
     <!-- Navigation Header -->
-    <header class="fixed top-0 left-0 w-full px-10 py-8 flex justify-between items-center z-50 mix-blend-difference">
-        <a href="/" class="text-2xl font-bold tracking-tighter text-white font-sans uppercase">
+    <header class="fixed top-0 left-0 w-full px-4 sm:px-10 py-6 sm:py-8 flex justify-between items-center z-50 mix-blend-difference">
+        <a href="/" class="text-xl sm:text-2xl font-bold tracking-tighter text-white font-sans uppercase">
             GCK Media Unit
         </a>
         <nav class="hidden md:flex space-x-12 text-xs uppercase tracking-widest text-slate-400 font-sans">
@@ -67,17 +67,17 @@
         </nav>
         <div>
             {% if user.is_staff %}
-                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest font-sans">Dashboard</a>
+                <a href="/admin/" class="action-btn px-3 sm:px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest font-sans">Dashboard</a>
             {% else %}
-                <a href="/admin/login/?next=/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest font-sans">AUTH_LOGIN</a>
+                <a href="/admin/login/?next=/admin/" class="action-btn px-3 sm:px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest font-sans">AUTH_LOGIN</a>
             {% endif %}
         </div>
     </header>
 
     <!-- Hero Content -->
-    <main class="min-h-screen flex items-center justify-center px-4 pt-20 relative z-10">
-        <div class="glass-card max-w-3xl w-full p-8 md:p-14 rounded-3xl relative overflow-hidden">
-            <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-3 text-xs text-slate-400 font-sans">
+    <main class="min-h-screen flex items-center justify-center px-4 pt-24 pb-12 relative z-10">
+        <div class="glass-card max-w-3xl w-full p-6 sm:p-10 md:p-14 rounded-3xl relative overflow-hidden">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-6 border-b border-white/10 pb-3 text-[11px] sm:text-xs text-slate-400 font-sans">
                 <span>REC ● 4K 60FPS</span>
                 <span>ISO 800 // f/1.8</span>
                 <span>LATENCY: 12ms</span>
@@ -87,7 +87,7 @@
                 {{ home_content.badge_text }}
             </span>
 
-            <h1 class="text-3xl md:text-5xl font-light mb-6 text-white leading-tight font-sans tracking-tight">
+            <h1 class="text-2xl sm:text-4xl md:text-5xl font-light mb-6 text-white leading-tight font-sans tracking-tight">
                 {{ home_content.hero_title }}
             </h1>
             <p class="text-slate-400 text-sm md:text-base mb-8 max-w-xl leading-relaxed font-sans">
@@ -103,18 +103,18 @@
                 </a>
             </div>
 
-            <!-- Specs Grid -->
-            <div class="grid grid-cols-3 gap-4 pt-8 mt-8 border-t border-white/10 text-left font-sans">
+            <!-- Specs Grid (Responsive: 1 col on mobile, 3 cols on small screens+) -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 mt-8 border-t border-white/10 text-left font-sans">
                 <div>
-                    <p class="text-lg font-bold text-white">RAW / 10-BIT</p>
+                    <p class="text-base sm:text-lg font-bold text-white">RAW / 10-BIT</p>
                     <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Video Stream</p>
                 </div>
                 <div>
-                    <p class="text-lg font-bold text-slate-300">PY3.12 / DJ6.1</p>
+                    <p class="text-base sm:text-lg font-bold text-slate-300">PY3.12 / DJ6.1</p>
                     <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Core Tech Stack</p>
                 </div>
                 <div>
-                    <p class="text-lg font-bold text-slate-400">NVMe / GbE</p>
+                    <p class="text-base sm:text-lg font-bold text-slate-400">NVMe / GbE</p>
                     <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Network Pipeline</p>
                 </div>
             </div>
@@ -160,7 +160,7 @@
 
         camera.position.z = 6.5;
 
-        // Interactive Camera Pitch/Yaw
+        // Interactive Camera Pitch/Yaw (Works for mouse and scaled touch/gyro if applicable)
         let targetX = 0, targetY = 0;
         window.addEventListener('mousemove', (e) => {
             targetX = (e.clientX / window.innerWidth - 0.5) * 0.4;

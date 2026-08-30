@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ about.title|default:"GCKMU| About Society" }}</title>
+    <title>{{ about.title|default:"GCKMU | About Society" }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
@@ -17,6 +17,11 @@
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.05);
         }
         .action-btn {
             background: rgba(255, 255, 255, 0.05);
@@ -44,8 +49,8 @@
     <div id="canvas-container"></div>
 
     <!-- Navigation Header -->
-    <header class="fixed top-0 left-0 w-full px-10 py-8 flex justify-between items-center z-50 mix-blend-difference">
-        <a href="/" class="text-2xl font-bold tracking-tighter text-white font-sans uppercase">GCK Media Unit</a>
+    <header class="fixed top-0 left-0 w-full px-4 sm:px-10 py-6 sm:py-8 flex justify-between items-center z-50 mix-blend-difference">
+        <a href="/" class="text-xl sm:text-2xl font-bold tracking-tighter text-white font-sans uppercase">GCK Media Unit</a>
         <nav class="hidden md:flex space-x-12 text-xs uppercase tracking-widest text-slate-400 font-sans">
             <a href="/" class="hover:text-white transition-colors">Home</a>
             <a href="/events/" class="hover:text-white transition-colors">Events</a>
@@ -53,18 +58,18 @@
         </nav>
         <div>
             {% if user.is_staff %}
-                <a href="/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">Login</a>
+                <a href="/admin/" class="action-btn px-3 sm:px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest font-sans">Dashboard</a>
             {% else %}
-                <a href="/admin/login/?next=/admin/" class="action-btn px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest">AUTH_LOGIN</a>
+                <a href="/admin/login/?next=/admin/" class="action-btn px-3 sm:px-4 py-2 rounded text-[10px] font-semibold text-slate-200 uppercase tracking-widest font-sans">AUTH_LOGIN</a>
             {% endif %}
         </div>
     </header>
 
     <!-- Main Content Section -->
-    <main class="min-h-screen flex flex-col items-center justify-center px-6 pt-32 pb-20 relative z-10 space-y-12">
-        <div class="max-w-4xl w-full p-8 md:p-14 rounded-3xl glass-card relative overflow-hidden">
+    <main class="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 pt-32 sm:pt-40 pb-20 relative z-10 space-y-12 max-w-4xl mx-auto">
+        <div class="w-full p-6 sm:p-10 md:p-14 rounded-3xl glass-card relative overflow-hidden">
             
-            <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-3 text-xs text-slate-400 font-sans">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-6 border-b border-white/10 pb-3 text-[11px] sm:text-xs text-slate-400 font-sans">
                 <span>NODE // ABOUT_LOG</span>
                 <span>STATUS: SECURE</span>
                 <span>ACCESS: PUBLIC</span>
@@ -74,7 +79,7 @@
                 {{ about.subtitle|safe }}
             </span>
 
-            <h1 class="text-3xl md:text-5xl font-light mb-6 text-white leading-tight font-sans tracking-tight">
+            <h1 class="text-2xl sm:text-4xl md:text-5xl font-light mb-6 text-white leading-tight font-sans tracking-tight">
                 {{ about.main_heading|safe }}
             </h1>
 
@@ -83,18 +88,18 @@
             </div>
 
             <!-- Mission Highlight Box -->
-            <div class="p-6 rounded-2xl bg-white/5 border border-white/10 mb-8 font-sans">
+            <div class="p-6 rounded-2xl bg-white/5 border border-white/10 mb-2 font-sans">
                 <h3 class="text-xs font-bold text-white tracking-widest uppercase mb-2">// CORE MISSION_STATEMENT</h3>
                 <p class="text-slate-400 text-xs md:text-sm leading-relaxed">{{ about.mission_statement }}</p>
             </div>
         </div>
 
         <!-- TEAM SECTION -->
-        <div class="max-w-4xl w-full space-y-10 font-sans">
+        <div class="w-full space-y-10 font-sans">
             
             <!-- Teacher-in-Charge -->
             {% if teachers %}
-            <div class="p-8 rounded-3xl glass-card">
+            <div class="p-6 sm:p-8 rounded-3xl glass-card">
                 <h3 class="text-xs font-bold tracking-widest text-indigo-400 uppercase mb-6">// TEACHER-IN-CHARGE</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {% for t in teachers %}
@@ -116,7 +121,7 @@
 
             <!-- Committee Members -->
             {% if committee %}
-            <div class="p-8 rounded-3xl glass-card">
+            <div class="p-6 sm:p-8 rounded-3xl glass-card">
                 <h3 class="text-xs font-bold tracking-widest text-indigo-400 uppercase mb-6">// EXECUTIVE COMMITTEE</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     {% for c in committee %}
@@ -136,7 +141,7 @@
 
             <!-- General Members -->
             {% if members %}
-            <div class="p-8 rounded-3xl glass-card">
+            <div class="p-6 sm:p-8 rounded-3xl glass-card">
                 <h3 class="text-xs font-bold tracking-widest text-indigo-400 uppercase mb-6">// ACTIVE MEMBERS</h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {% for m in members %}

@@ -20,7 +20,8 @@ SECRET_KEY = 'django-insecure-=79$&m&3^1*09!ieit_t2imj0$ls5y!p8#c2514cn%u474nann
 # SECURITY WARNING: set to True for local development
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '[::1]', '.onrender.com', 'yenuka.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '[::1]',
+                 '.onrender.com', 'yenuka.pythonanywhere.com']
 
 
 # Application definition

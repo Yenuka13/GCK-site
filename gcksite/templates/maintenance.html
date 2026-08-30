@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCKMU | 503 System Under Maintenance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        .dot-matrix {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .liquid-glass {
+            background: rgba(12, 12, 16, 0.78);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85),
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+        }
+        .action-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .action-btn:hover {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(129, 140, 248, 0.15));
+            border-color: rgba(56, 189, 248, 0.5);
+            color: #38bdf8;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #canvas-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0;
+            background: radial-gradient(circle at center, #0a0f1d 0%, #040406 100%);
+            pointer-events: none;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #040406; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col items-center justify-center font-mono antialiased dot-matrix selection:bg-sky-500 selection:text-black overflow-hidden p-4">
+
+    <!-- 3D WebGL Canvas Layer -->
+    <div id="canvas-container"></div>
+
+    <!-- Central Maintenance Container -->
+    <main class="relative z-10 max-w-xl w-full text-center">
+        <div class="liquid-glass p-8 sm:p-10 rounded-3xl relative overflow-hidden text-left">
+            
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-2 text-[11px] text-sky-400 font-sans tracking-widest uppercase">
+                    <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+                    SYSTEM OFFLINE // 503 OVERRIDE
+                </div>
+                <div class="text-[10px] text-slate-400 bg-white/5 px-2.5 py-1 rounded-full border border-white/10 font-sans">
+                    Node: GCK-SRV-01
+                </div>
+            </div>
+
+            <h1 class="text-2xl sm:text-3xl font-light mb-3 gradient-text font-sans tracking-tight text-center">
+                Scheduled Infrastructure Upgrade
+            </h1>
+            
+            <!-- Content Card explaining what's going on -->
+            <div class="p-5 rounded-2xl bg-white/5 border border-white/10 mb-6 font-sans text-xs space-y-3 text-slate-300">
+                <p class="font-semibold text-sky-300">// BULLETIN: Active Maintenance Protocol</p>
+                <p class="leading-relaxed text-slate-300">
+                    {{ maintenance_message }}
+                </p>
+                <div class="border-t border-white/10 pt-3 space-y-1 text-slate-400 text-[11px]">
+                    <div class="flex justify-between"><span>• Database Kernel Refresh:</span> <span class="text-emerald-400">In Progress</span></div>
+                    <div class="flex justify-between"><span>• Optical Matrix Calibration:</span> <span class="text-amber-400">Queued</span></div>
+                </div>
+            </div>
+
+            <!-- Countdown Timer Component -->
+            <div class="grid grid-cols-4 gap-2 mb-6 text-center">
+                <div class="bg-white/5 border border-white/10 p-3 rounded-xl font-sans">
+                    <div id="hours" class="text-xl font-bold text-sky-400">02</div>
+                    <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Hours</div>
+                </div>
+                <div class="bg-white/5 border border-white/10 p-3 rounded-xl font-sans">
+                    <div id="minutes" class="text-xl font-bold text-sky-400">45</div>
+                    <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Mins</div>
+                </div>
+                <div class="bg-white/5 border border-white/10 p-3 rounded-xl font-sans">
+                    <div id="seconds" class="text-xl font-bold text-sky-400">00</div>
+                    <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Secs</div>
+                </div>
+                <div class="bg-white/5 border border-white/10 p-3 rounded-xl font-sans flex flex-col justify-center items-center">
+                    <div class="text-[10px] text-emerald-400 font-bold uppercase">Live</div>
+                    <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Status</div>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-white/10 flex justify-between items-center text-[10px] text-slate-500 font-sans">
+                <span class="tracking-widest">GCK MEDIA UNIT INFRASTRUCTURE</span>
+                <a href="/admin/" class="action-btn px-4 py-2 rounded-xl font-semibold text-slate-300 uppercase tracking-widest">
+                    Admin Auth
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Three.js 3D Background Script & Countdown Logic -->
+    <script>
+        // Simple Countdown Logic (e.g., 2 hours 45 mins timer loop or target)
+        let totalSeconds = 2 * 3600 + 45 * 60;
+        const hEl = document.getElementById('hours');
+        const mEl = document.getElementById('minutes');
+        const sEl = document.getElementById('seconds');
+
+        setInterval(() => {
+            if (totalSeconds > 0) totalSeconds--;
+            let h = Math.floor(totalSeconds / 3600);
+            let m = Math.floor((totalSeconds % 3600) / 60);
+            let s = totalSeconds % 60;
+
+            hEl.textContent = String(h).padStart(2, '0');
+            mEl.textContent = String(m).padStart(2, '0');
+            sEl.textContent = String(s).padStart(2, '0');
+        }, 1000);
+
+        // Three.js Setup
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        const group = new THREE.Group();
+        const bodyGeo = new THREE.ConeGeometry(0.8, 3, 6);
+        const bodyMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, wireframe: true, transparent: true, opacity: 0.35 });
+        const rocketBody = new THREE.Mesh(bodyGeo, bodyMat);
+        rocketBody.rotation.z = Math.PI;
+        group.add(rocketBody);
+
+        scene.add(group);
+        camera.position.z = 6;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            group.rotation.y += 0.005;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

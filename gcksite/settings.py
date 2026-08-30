@@ -54,9 +54,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # Tracks which user triggered the database change
     'simple_history.middleware.HistoryRequestMiddleware',
+
+    # Required for interception
+    'myapp.middleware.MaintenanceModeMiddleware',
 ]
 
 ROOT_URLCONF = 'gcksite.urls'

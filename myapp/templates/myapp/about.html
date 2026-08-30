@@ -8,47 +8,68 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         .dot-matrix {
-            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+            background-size: 24px 24px;
         }
-        .glass-card {
-            background: rgba(10, 10, 12, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+
+        /* Enhanced Liquid Glass Theme */
+        .liquid-glass {
+            background: rgba(12, 12, 16, 0.68);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8),
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.05);
+
+        .liquid-glass:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.95), 
+                        0 0 30px rgba(56, 189, 248, 0.2),
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
         }
+
         .action-btn {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .action-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(129, 140, 248, 0.15));
+            border-color: rgba(56, 189, 248, 0.5);
+            color: #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
         }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         #canvas-container {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: 0;
-            background: #050507;
+            background: radial-gradient(circle at center, #0a0f1d 0%, #040406 100%);
             pointer-events: none;
         }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #050507; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #040406; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
     </style>
 </head>
-<body class="text-slate-100 min-h-screen overflow-x-hidden font-mono antialiased dot-matrix selection:bg-white selection:text-black">
+<body class="text-slate-100 min-h-screen overflow-x-hidden font-mono antialiased dot-matrix selection:bg-sky-500 selection:text-black">
 
     <div id="canvas-container"></div>
 
-    <!-- Navigation Header -->
     <header class="fixed top-0 left-0 w-full px-4 sm:px-10 py-6 sm:py-8 flex justify-between items-center z-50 mix-blend-difference">
         <a href="/" class="text-xl sm:text-2xl font-bold tracking-tighter text-white font-sans uppercase">GCK Media Unit</a>
         <nav class="hidden md:flex space-x-12 text-xs uppercase tracking-widest text-slate-400 font-sans">
@@ -65,21 +86,20 @@
         </div>
     </header>
 
-    <!-- Main Content Section -->
     <main class="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 pt-32 sm:pt-40 pb-20 relative z-10 space-y-12 max-w-4xl mx-auto">
-        <div class="w-full p-6 sm:p-10 md:p-14 rounded-3xl glass-card relative overflow-hidden">
+        <div class="w-full p-6 sm:p-10 md:p-14 rounded-3xl liquid-glass relative overflow-hidden">
             
             <div class="flex flex-wrap items-center justify-between gap-2 mb-6 border-b border-white/10 pb-3 text-[11px] sm:text-xs text-slate-400 font-sans">
-                <span>NODE // ABOUT_LOG</span>
-                <span>STATUS: SECURE</span>
+                <span class="text-sky-400 font-semibold">NODE // ABOUT_LOG</span>
+                <span class="text-emerald-400">STATUS: SECURE</span>
                 <span>ACCESS: PUBLIC</span>
             </div>
 
-            <span class="inline-block px-3 py-1 mb-4 text-[10px] font-bold tracking-widest text-slate-300 uppercase rounded bg-white/5 border border-white/10 font-sans">
+            <span class="inline-block px-3.5 py-1 mb-4 text-[10px] font-bold tracking-widest text-sky-400 uppercase rounded-full bg-sky-500/10 border border-sky-500/20 font-sans">
                 {{ about.subtitle|safe }}
             </span>
 
-            <h1 class="text-2xl sm:text-4xl md:text-5xl font-light mb-6 text-white leading-tight font-sans tracking-tight">
+            <h1 class="text-2xl sm:text-4xl md:text-5xl font-light mb-6 gradient-text leading-tight font-sans tracking-tight">
                 {{ about.main_heading|safe }}
             </h1>
 
@@ -87,27 +107,24 @@
                 <p>{{ about.body_text|linebreaksbr }}</p>
             </div>
 
-            <!-- Mission Highlight Box -->
             <div class="p-6 rounded-2xl bg-white/5 border border-white/10 mb-2 font-sans">
-                <h3 class="text-xs font-bold text-white tracking-widest uppercase mb-2">// CORE MISSION_STATEMENT</h3>
-                <p class="text-slate-400 text-xs md:text-sm leading-relaxed">{{ about.mission_statement }}</p>
+                <h3 class="text-xs font-bold text-sky-400 tracking-widest uppercase mb-2">// CORE MISSION_STATEMENT</h3>
+                <p class="text-slate-300 text-xs md:text-sm leading-relaxed">{{ about.mission_statement }}</p>
             </div>
         </div>
 
-        <!-- TEAM SECTION -->
         <div class="w-full space-y-10 font-sans">
             
-            <!-- Teacher-in-Charge -->
             {% if teachers %}
-            <div class="p-6 sm:p-8 rounded-3xl glass-card">
-                <h3 class="text-xs font-bold tracking-widest text-indigo-400 uppercase mb-6">// TEACHER-IN-CHARGE</h3>
+            <div class="p-6 sm:p-8 rounded-3xl liquid-glass">
+                <h3 class="text-xs font-bold tracking-widest text-sky-400 uppercase mb-6">// TEACHER-IN-CHARGE</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {% for t in teachers %}
-                    <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center space-x-4">
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center space-x-4 hover:border-sky-500/30 transition-colors">
                         {% if t.image_url %}
                             <img src="{{ t.image_url }}" alt="{{ t.name }}" class="w-14 h-14 rounded-full object-cover border border-white/20">
                         {% else %}
-                            <div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-white font-bold">{{ t.name|slice:":2"|upper }}</div>
+                            <div class="w-14 h-14 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 font-bold">{{ t.name|slice:":2"|upper }}</div>
                         {% endif %}
                         <div>
                             <h4 class="text-sm font-bold text-white">{{ t.name }}</h4>
@@ -119,17 +136,16 @@
             </div>
             {% endif %}
 
-            <!-- Committee Members -->
             {% if committee %}
-            <div class="p-6 sm:p-8 rounded-3xl glass-card">
-                <h3 class="text-xs font-bold tracking-widest text-indigo-400 uppercase mb-6">// EXECUTIVE COMMITTEE</h3>
+            <div class="p-6 sm:p-8 rounded-3xl liquid-glass">
+                <h3 class="text-xs font-bold tracking-widest text-sky-400 uppercase mb-6">// EXECUTIVE COMMITTEE</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     {% for c in committee %}
-                    <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-center hover:border-sky-500/30 transition-colors">
                         {% if c.image_url %}
                             <img src="{{ c.image_url }}" alt="{{ c.name }}" class="w-16 h-16 rounded-full object-cover mx-auto mb-3 border border-white/20">
                         {% else %}
-                            <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-white font-bold mx-auto mb-3">{{ c.name|slice:":2"|upper }}</div>
+                            <div class="w-16 h-16 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 font-bold mx-auto mb-3">{{ c.name|slice:":2"|upper }}</div>
                         {% endif %}
                         <h4 class="text-sm font-bold text-white">{{ c.name }}</h4>
                         <p class="text-xs text-slate-400 mt-1">{{ c.position|default:"Committee Member" }}</p>
@@ -139,13 +155,12 @@
             </div>
             {% endif %}
 
-            <!-- General Members -->
             {% if members %}
-            <div class="p-6 sm:p-8 rounded-3xl glass-card">
-                <h3 class="text-xs font-bold tracking-widest text-indigo-400 uppercase mb-6">// ACTIVE MEMBERS</h3>
+            <div class="p-6 sm:p-8 rounded-3xl liquid-glass">
+                <h3 class="text-xs font-bold tracking-widest text-sky-400 uppercase mb-6">// ACTIVE MEMBERS</h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {% for m in members %}
-                    <div class="p-3 rounded-lg bg-white/5 border border-white/10 text-center">
+                    <div class="p-3 rounded-xl bg-white/5 border border-white/10 text-center hover:border-sky-500/30 transition-colors">
                         <h4 class="text-xs font-semibold text-white">{{ m.name }}</h4>
                         {% if m.position %}<p class="text-[10px] text-slate-400 mt-0.5">{{ m.position }}</p>{% endif %}
                     </div>
@@ -157,7 +172,6 @@
         </div>
     </main>
 
-    <!-- 3D Background Script -->
     <script>
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
@@ -169,7 +183,7 @@
 
         const group = new THREE.Group();
         const ringGeo = new THREE.TorusGeometry(4, 0.1, 16, 100);
-        const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.1 });
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, wireframe: true, transparent: true, opacity: 0.18 });
         const ring = new THREE.Mesh(ringGeo, ringMat);
         group.add(ring);
         scene.add(group);

@@ -8,56 +8,68 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         .dot-matrix {
-            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+            background-size: 24px 24px;
         }
 
-        .glass-card {
-            background: rgba(10, 10, 12, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+        /* Enhanced Liquid Glass Theme */
+        .liquid-glass {
+            background: rgba(12, 12, 16, 0.68);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8),
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-5px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.05);
+        .liquid-glass:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.95), 
+                        0 0 30px rgba(56, 189, 248, 0.2),
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
         }
 
         .action-btn {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .action-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(129, 140, 248, 0.15));
+            border-color: rgba(56, 189, 248, 0.5);
+            color: #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         #canvas-container {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: 0;
-            background: #050507;
+            background: radial-gradient(circle at center, #0a0f1d 0%, #040406 100%);
             pointer-events: none;
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #050507; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #040406; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
     </style>
 </head>
-<body class="text-slate-100 min-h-screen font-mono antialiased dot-matrix selection:bg-white selection:text-black overflow-x-hidden">
+<body class="text-slate-100 min-h-screen font-mono antialiased dot-matrix selection:bg-sky-500 selection:text-black overflow-x-hidden">
     
-    <!-- 3D Interactive Background Canvas -->
     <div id="canvas-container"></div>
 
-    <!-- Navigation Header -->
     <header class="fixed top-0 left-0 w-full px-4 sm:px-10 py-6 sm:py-8 flex justify-between items-center z-50 mix-blend-difference">
         <a href="/" class="text-xl sm:text-2xl font-bold tracking-tighter text-white font-sans uppercase">
             GCK Media Unit
@@ -76,38 +88,37 @@
         </div>
     </header>
 
-    <!-- Main Content Layer -->
     <main class="max-w-7xl mx-auto pt-36 sm:pt-44 pb-32 px-4 sm:px-6 relative z-10">
         <div class="mb-16 border-b border-white/10 pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
             <div>
-                <span class="text-[10px] text-slate-400 tracking-widest uppercase">// SYSTEM PIPELINE SCHEDULE</span>
-                <h1 class="text-2xl sm:text-3xl md:text-5xl font-light text-white font-sans tracking-tight mt-1">
+                <span class="text-[10px] text-sky-400 font-bold tracking-widest uppercase">// SYSTEM PIPELINE SCHEDULE</span>
+                <h1 class="text-2xl sm:text-3xl md:text-5xl font-light gradient-text font-sans tracking-tight mt-1">
                     SESSIONS &amp; EXHIBITS
                 </h1>
             </div>
             <div class="text-xs text-slate-400 tracking-widest font-sans">
-                ACTIVE NODES: <span class="text-white font-bold">{{ events|length }}</span>
+                EVENTS: <span class="text-sky-400 font-bold">{{ events|length }}</span>
             </div>
         </div>
 
         {% if events %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {% for event in events %}
-                    <div class="glass-card rounded-2xl p-6 flex flex-col justify-between relative group">
+                    <div class="liquid-glass rounded-3xl p-6 flex flex-col justify-between relative group">
                         <div class="absolute top-4 right-4 text-[9px] text-slate-500 font-mono tracking-widest">00{{ forloop.counter }}</div>
 
                         <div>
                             {% if event.image_url %}
-                                <div class="relative overflow-hidden rounded-xl mb-5 border border-white/10 group-hover:border-white/30 transition-colors">
+                                <div class="relative overflow-hidden rounded-2xl mb-5 border border-white/10 group-hover:border-sky-500/40 transition-colors">
                                     <img src="{{ event.image_url }}" alt="{{ event.title }}" class="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-700">
                                 </div>
                             {% else %}
-                                <div class="w-full h-52 bg-white/5 rounded-xl mb-5 flex flex-col items-center justify-center border border-white/10 text-slate-400">
-                                    <span class="text-sm font-mono tracking-wider">[FEED_OFFLINE]</span>
+                                <div class="w-full h-52 bg-white/5 rounded-2xl mb-5 flex flex-col items-center justify-center border border-white/10 text-slate-400">
+                                    <span class="text-sm font-mono tracking-wider text-sky-400">[FEED_OFFLINE]</span>
                                 </div>
                             {% endif %}
                             
-                            <div class="inline-block px-2.5 py-1 bg-white/5 border border-white/10 rounded text-[10px] font-medium text-slate-300 mb-3 tracking-widest uppercase font-sans">
+                            <div class="inline-block px-3 py-1 bg-sky-500/10 border border-sky-500/20 rounded-full text-[10px] font-semibold text-sky-400 mb-3 tracking-widest uppercase font-sans">
                                 {{ event.date|date:"Y-m-d // H:i" }}
                             </div>
                             
@@ -121,11 +132,11 @@
                             </span>
                             
                             {% if event.rsvp_link %}
-                                <a href="{{ event.rsvp_link }}" target="_blank" rel="noopener noreferrer" class="action-btn px-4 py-2 rounded text-white font-bold text-[10px] tracking-wider uppercase inline-block">
+                                <a href="{{ event.rsvp_link }}" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-sky-400 to-indigo-500 text-slate-950 px-4 py-2 rounded-xl font-bold text-[10px] tracking-wider uppercase inline-block shadow-md shadow-sky-500/20 hover:opacity-95 transition">
                                     REGISTER
                                 </a>
                             {% else %}
-                                <button disabled class="opacity-30 cursor-not-allowed action-btn px-4 py-2 rounded text-slate-500 font-bold text-[10px] tracking-wider uppercase">
+                                <button disabled class="opacity-30 cursor-not-allowed action-btn px-4 py-2 rounded-xl text-slate-500 font-bold text-[10px] tracking-wider uppercase">
                                     COMING SOON
                                 </button>
                             {% endif %}
@@ -134,21 +145,19 @@
                 {% endfor %}
             </div>
         {% else %}
-            <div class="glass-card max-w-md mx-auto p-12 rounded-3xl text-center">
-                <div class="text-2xl text-slate-400 mb-3">∅</div>
+            <div class="liquid-glass max-w-md mx-auto p-12 rounded-3xl text-center">
+                <div class="text-2xl text-sky-400 mb-3 animate-pulse">∅</div>
                 <h3 class="text-sm font-bold text-white mb-2 font-sans tracking-wider">NO SCHEDULED ENTRIES</h3>
                 <p class="text-slate-400 text-xs font-sans">The pipeline is currently empty. Check back for upcoming session drops.</p>
             </div>
         {% endif %}
     </main>
 
-    <!-- Footer -->
     <footer class="max-w-7xl mx-auto px-6 sm:px-10 py-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-[11px] text-slate-500 relative z-10 font-sans gap-2">
         <div>001 // GCK MEDIA UNIT</div>
-        <div class="tracking-widest uppercase">SYSTEM ACTIVE</div>
+        <div class="tracking-widest uppercase text-sky-400">SYSTEM ACTIVE</div>
     </footer>
 
-    <!-- Three.js Elliptical 3D Ring Animation Script -->
     <script>
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
@@ -172,10 +181,10 @@
 
             const geometry = new THREE.PlaneGeometry(1.4, 1.8);
             const material = new THREE.MeshBasicMaterial({ 
-                color: 0xffffff, 
+                color: 0x38bdf8, 
                 wireframe: true, 
                 transparent: true, 
-                opacity: 0.12 
+                opacity: 0.18 
             });
             const mesh = new THREE.Mesh(geometry, material);
             

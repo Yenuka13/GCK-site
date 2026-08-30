@@ -1,21 +1,60 @@
 {% extends "admin/base_site.html" %}
 
 {% block branding %}
-  <h1 id="site-name">
-    <a href="{% url 'admin:index' %}">
-      <!-- Custom SVG/Logo or Styled Text -->
-      <span style="color: #6366f1; font-weight: bold;">GCK</span> Admin
+  <h1 id="site-name" class="font-mono">
+    <a href="{% url 'admin:index' %}" class="flex items-center gap-2 text-white font-bold tracking-tight">
+      <span class="px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs">GCK</span>
+      <span class="text-sm tracking-wider uppercase">Media Unit // Admin</span>
     </a>
   </h1>
 {% endblock %}
 
 {% block extrastyle %}
+  {{ block.super }}
   <style>
-    /* Custom brand accent colors */
+    /* Dot Matrix Background Pattern across the Admin */
+    body {
+      background-color: #050507 !important;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+      color: #f1f5f9 !important;
+    }
+
+    /* Liquid Glass Card Panels & Sidebars */
+    .bg-white, .dark\:bg-gray-900, .dark\:bg-gray-800, div[class*="bg-"] {
+      /* Overriding unfold/tailwind container backgrounds selectively where appropriate */
+    }
+
+    .liquid-glass-admin {
+      background: rgba(12, 12, 16, 0.75) !important;
+      backdrop-filter: blur(25px) !important;
+      -webkit-backdrop-filter: blur(25px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.18) !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8),
+                  inset 0 1px 0 0 rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Target Unfold cards, tables, and wrapper containers */
+    main .shadow-sm, main .rounded-lg, main .rounded-xl {
+      background: rgba(12, 12, 16, 0.75) !important;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f1f5f9 !important;
+    }
+
+    /* Accent color overrides matching frontend */
     :root {
-      --primary: #4f46e5;
-      --secondary: #312e81;
+      --primary: #38bdf8;
+      --secondary: #0284c7;
       --accent: #38bdf8;
     }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #040406; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
   </style>
 {% endblock %}

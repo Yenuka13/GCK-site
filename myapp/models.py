@@ -39,7 +39,6 @@ class AboutPageContent(models.Model):
         return "About Page Configuration"
 
 
-# Add this model to your existing myapp/models.py
 class TeamMember(models.Model):
     ROLE_CHOICES = [
         ('teacher', 'Teacher-in-Charge'),
@@ -62,22 +61,6 @@ class TeamMember(models.Model):
 
 
 class HomePageContent(models.Model):
-    hero_title = models.CharField(
-        max_length=200, default="Welcome back to GCK Media Control Panel")
-    hero_subtitle = models.CharField(
-        max_length=300, default="Manage your systems, media, and events seamlessly.")
-    welcome_banner_text = models.TextField(
-        default="System operational and ready for deployment.")
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return "Home Page Configuration"
-
-    class Meta:
-        verbose_name_plural = "Home Page Configuration"
-
-
-class HomePageContent(models.Model):
     badge_text = models.CharField(
         max_length=150, default="IT & OPTICAL COMPUTING ARCHITECTURE")
     hero_title = models.CharField(
@@ -91,3 +74,31 @@ class HomePageContent(models.Model):
 
     class Meta:
         verbose_name_plural = "Home Page Configuration"
+
+
+# --- MAINTENANCE MODE SETTINGS ---
+class SiteSettings(models.Model):
+    is_maintenance_mode = models.BooleanField(
+        default=False,
+        help_text="Enable to activate maintenance mode across the public site."
+    )
+    maintenance_message = models.TextField(
+        default="System undergoing routine kernel update and optical calibration. Standby.",
+        help_text="Message displayed on the maintenance screen."
+    )
+
+    def save(self, *args, **kwargs):
+        # Enforce singleton pattern (only 1 row allowed)
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+    def __str__(self):
+        return "Site Settings & Maintenance Control"
+
+    class Meta:
+        verbose_name_plural = "Site Settings & Maintenance Control"

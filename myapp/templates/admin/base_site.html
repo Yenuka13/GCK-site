@@ -1,60 +1,141 @@
 {% extends "admin/base_site.html" %}
 
 {% block branding %}
-  <h1 id="site-name" class="font-mono">
-    <a href="{% url 'admin:index' %}" class="flex items-center gap-2 text-white font-bold tracking-tight">
-      <span class="px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs">GCK</span>
-      <span class="text-sm tracking-wider uppercase">Media Unit // Admin</span>
-    </a>
-  </h1>
+  <div class="flex items-center gap-4">
+    <h1 id="site-name" class="font-mono m-0">
+      <a href="{% url 'admin:index' %}" class="flex items-center gap-2.5 text-white font-bold tracking-tight group">
+        <span class="px-2 py-1 rounded bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs shadow-[0_0_15px_rgba(56,189,248,0.15)] group-hover:border-sky-400 transition-colors">GCK</span>
+        <span class="text-xs sm:text-sm tracking-wider uppercase bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">Media Unit // Admin</span>
+      </a>
+    </h1>
+    
+    <!-- Live Time Clock Widget -->
+    <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/10 text-[11px] text-sky-400 font-mono tracking-widest shadow-inner">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span id="live-clock">00:00:00 UTC</span>
+    </div>
+  </div>
 {% endblock %}
 
 {% block extrastyle %}
   {{ block.super }}
   <style>
-    /* Dot Matrix Background Pattern across the Admin */
+    /* Root Variables & Sci-Fi Custom Theme Colors */
+    :root {
+      --primary: 56 189 248;
+      --primary-foreground: 2 6 23;
+    }
+
+    /* Core Admin Body Styling with Ambient Background Glow */
     body {
       background-color: #050507 !important;
-      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-      background-size: 24px 24px;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(129, 140, 248, 0.03) 0%, transparent 40%),
+        radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 24px 24px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
       color: #f1f5f9 !important;
     }
 
-    /* Liquid Glass Card Panels & Sidebars */
-    .bg-white, .dark\:bg-gray-900, .dark\:bg-gray-800, div[class*="bg-"] {
-      /* Overriding unfold/tailwind container backgrounds selectively where appropriate */
+    /* Global Header & Nav Glass Styling */
+    header, nav, .breadcrumbs, footer {
+      background: rgba(10, 10, 14, 0.85) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
     }
 
-    .liquid-glass-admin {
+    /* Universal Liquid Glass Panels, Cards, Sidebars & Modules */
+    div, section, aside, .module, .card, .unfold-card, 
+    main .bg-white, main .dark\:bg-gray-900, main .dark\:bg-gray-800,
+    [class*="bg-white"], [class*="bg-gray-"] {
+      background-color: transparent !important;
+    }
+
+    /* Apply Liquid Glass Effect to Interactive Cards & Content Blocks */
+    .module, .card, .unfold-card, 
+    main > div, .dashboard div.module, 
+    div[class*="shadow"], div[class*="rounded"] {
       background: rgba(12, 12, 16, 0.75) !important;
       backdrop-filter: blur(25px) !important;
       -webkit-backdrop-filter: blur(25px) !important;
       border: 1px solid rgba(255, 255, 255, 0.08) !important;
-      border-top: 1px solid rgba(255, 255, 255, 0.18) !important;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8),
-                  inset 0 1px 0 0 rgba(255, 255, 255, 0.1) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8),
+                  inset 0 1px 0 0 rgba(255, 255, 255, 0.08) !important;
+      border-radius: 1rem !important;
     }
 
-    /* Target Unfold cards, tables, and wrapper containers */
-    main .shadow-sm, main .rounded-lg, main .rounded-xl {
-      background: rgba(12, 12, 16, 0.75) !important;
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    /* Refined Table and List Styling */
+    table {
+      border-collapse: separate !important;
+      border-spacing: 0;
+      width: 100%;
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.03) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #94a3b8 !important;
+      font-weight: 600 !important;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+      color: #e2e8f0 !important;
+    }
+
+    tr:hover td {
+      background: rgba(56, 189, 248, 0.02) !important;
+    }
+
+    /* Input Fields & Form Controls Polish */
+    input[type="text"], 
+    input[type="password"], 
+    input[type="email"], 
+    input[type="url"], 
+    input[type="number"], 
+    input[type="datetime-local"],
+    textarea, 
+    select {
+      background: rgba(255, 255, 255, 0.03) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
       color: #f1f5f9 !important;
+      border-radius: 0.55rem !important;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Accent color overrides matching frontend */
-    :root {
-      --primary: #38bdf8;
-      --secondary: #0284c7;
-      --accent: #38bdf8;
+    input:focus, textarea:focus, select:focus {
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.25) !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+      outline: none !important;
     }
 
-    /* Scrollbars */
+    /* Custom Modern Scrollbars */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #040406; }
-    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.4); }
   </style>
+
+  <!-- Live Clock Script -->
+  <script>
+    function updateAdminClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const clockEl = document.getElementById('live-clock');
+      if (clockEl) {
+        clockEl.textContent = `${hours}:${minutes}:${seconds} LKA`;
+      }
+    }
+    setInterval(updateAdminClock, 1000);
+    window.addEventListener('DOMContentLoaded', updateAdminClock);
+  </script>
 {% endblock %}

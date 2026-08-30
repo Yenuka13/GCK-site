@@ -86,6 +86,11 @@ class SiteSettings(models.Model):
         default="System undergoing routine kernel update and optical calibration. Standby.",
         help_text="Message displayed on the maintenance screen."
     )
+    countdown_target = models.DateTimeField(
+        blank=True,
+        null=True,
+        help_text="Target date and time when maintenance mode ends (used for the countdown timer)."
+    )
 
     def save(self, *args, **kwargs):
         # Enforce singleton pattern (only 1 row allowed)

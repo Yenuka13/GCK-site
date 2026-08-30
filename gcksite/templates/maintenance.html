@@ -83,23 +83,23 @@
                 </div>
             </div>
 
-            <!-- Countdown Timer Component -->
+            <!-- Countdown Timer Component (4 Columns: Days/Hours/Mins/Secs) -->
             <div class="grid grid-cols-4 gap-2 mb-6 text-center">
                 <div class="bg-white/5 border border-white/10 p-3 rounded-xl font-sans">
-                    <div id="hours" class="text-xl font-bold text-sky-400">02</div>
+                    <div id="days" class="text-xl font-bold text-sky-400">00</div>
+                    <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Days</div>
+                </div>
+                <div class="bg-white/5 border border-white/10 p-3 rounded-xl font-sans">
+                    <div id="hours" class="text-xl font-bold text-sky-400">00</div>
                     <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Hours</div>
                 </div>
                 <div class="bg-white/5 border border-white/10 p-3 rounded-xl font-sans">
-                    <div id="minutes" class="text-xl font-bold text-sky-400">45</div>
+                    <div id="minutes" class="text-xl font-bold text-sky-400">00</div>
                     <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Mins</div>
                 </div>
                 <div class="bg-white/5 border border-white/10 p-3 rounded-xl font-sans">
                     <div id="seconds" class="text-xl font-bold text-sky-400">00</div>
                     <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Secs</div>
-                </div>
-                <div class="bg-white/5 border border-white/10 p-3 rounded-xl font-sans flex flex-col justify-center items-center">
-                    <div class="text-[10px] text-emerald-400 font-bold uppercase">Live</div>
-                    <div class="text-[9px] text-slate-400 uppercase tracking-widest mt-0.5">Status</div>
                 </div>
             </div>
 
@@ -112,24 +112,43 @@
         </div>
     </main>
 
-    <!-- Three.js 3D Background Script & Countdown Logic -->
+    <!-- Three.js 3D Background Script & Dynamic Countdown Logic -->
     <script>
-        // Simple Countdown Logic (e.g., 2 hours 45 mins timer loop or target)
-        let totalSeconds = 2 * 3600 + 45 * 60;
+        // Read raw timestamp from Django middleware
+        const serverTimestamp = parseInt("{{ countdown_timestamp|default:0 }}", 10);
+        console.log("Server Timestamp Received:", serverTimestamp);
+
+        // Fallback: If no date is set in admin or it's in the past, default to 4 hours from now
+        let targetTime = (serverTimestamp > new Date().getTime()) 
+            ? serverTimestamp 
+            : (new Date().getTime() + 4 * 3600 * 1000);
+
+        const dEl = document.getElementById('days');
         const hEl = document.getElementById('hours');
         const mEl = document.getElementById('minutes');
         const sEl = document.getElementById('seconds');
 
-        setInterval(() => {
-            if (totalSeconds > 0) totalSeconds--;
-            let h = Math.floor(totalSeconds / 3600);
-            let m = Math.floor((totalSeconds % 3600) / 60);
-            let s = totalSeconds % 60;
+        function updateCountdown() {
+            const now = new Date().getTime();
+            let distance = targetTime - now;
 
-            hEl.textContent = String(h).padStart(2, '0');
-            mEl.textContent = String(m).padStart(2, '0');
-            sEl.textContent = String(s).padStart(2, '0');
-        }, 1000);
+            if (distance < 0) {
+                distance = 0;
+            }
+
+            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            dEl.textContent = String(days).padStart(2, '0');
+            hEl.textContent = String(hours).padStart(2, '0');
+            mEl.textContent = String(minutes).padStart(2, '0');
+            sEl.textContent = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
         // Three.js Setup
         const container = document.getElementById('canvas-container');

@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Colombo'
 
 USE_I18N = True
 
@@ -128,9 +128,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# STATICFILES_DIRS is commented out because the 'static' folder does not exist yet.
-# STATICFILES_DIRS = [BASE_DIR / 'static']
-
 # STATIC_ROOT is required for collectstatic to gather production assets.
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -141,28 +138,28 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
-# Django Unfold Admin Customization
+# Django Unfold Admin Customization (Aligned with Liquid Glass Theme)
 UNFOLD = {
     "SITE_TITLE": "GCK Media Control Panel",
     "SITE_HEADER": "GCK Media Unit",
     "SITE_URL": "/",
     "DASHBOARD_CALLBACK": None,
     "STYLES": [
-        lambda request: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+        lambda request: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap",
     ],
     "COLORS": {
         "primary": {
-            "50": "238 242 255",
-            "100": "224 231 255",
-            "200": "199 210 254",
-            "300": "165 180 252",
-            "400": "129 140 248",
-            "500": "99 102 241",   # Brand Indigo Accent
-            "600": "79 70 229",
-            "700": "67 56 202",
-            "800": "55 48 163",
-            "900": "49 46 129",
-            "950": "30 27 75",
+            "50": "240 249 255",
+            "100": "224 242 254",
+            "200": "186 230 253",
+            "300": "125 211 252",
+            "400": "56 189 248",
+            "500": "14 165 233",   # Sci-Fi Cyan Accent
+            "600": "2 132 199",
+            "700": "3 105 161",
+            "800": "7 89 133",
+            "900": "12 74 110",
+            "950": "8 47 73",
         },
     },
 }

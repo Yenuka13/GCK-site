@@ -72,11 +72,33 @@ class TeamMemberAdmin(DeleteActionMixin, ModelAdmin):
 
 # --- SITE SETTINGS & MAINTENANCE CONTROL ADMIN ---
 @admin.register(SiteSettings)
-class SiteSettingsAdmin(DeleteActionMixin, ModelAdmin):
-    list_display = ('is_maintenance_mode', 'maintenance_message')
+class SiteSettingsAdmin(ModelAdmin):
+    list_display = ('is_maintenance_mode',
+                    'maintenance_message', 'countdown_target', 'quick_actions')
+
+    fieldsets = (
+        ("Maintenance Control", {
+            "fields": ("is_maintenance_mode",)
+        }),
+        ("Custom Content & Countdown", {
+            "fields": ("maintenance_message", "countdown_target"),
+            "description": "Control what visitors see during maintenance and set your live countdown target time."
+        }),
+    )
 
     def has_add_permission(self, request):
         return not SiteSettings.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    @admin.display(description="Actions")
+    def quick_actions(self, obj):
+        change_url = reverse('admin:myapp_sitesettings_change', args=[obj.pk])
+        return format_html(
+            '<a class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-2.5 py-1 rounded transition-colors inline-block" href="{}">Configure</a>',
+            change_url
+        )
 
 
 # --- AUTH GROUP ADMIN (For Managing User Groups) ---

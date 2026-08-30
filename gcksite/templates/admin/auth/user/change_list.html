@@ -4,8 +4,10 @@
 {% block object-tools-items %}
   {{ block.super }}
 
-  <a href="{% url 'admin:auth_user_add' %}" class="bg-primary-600 hover:bg-primary-700 text-white font-semibold text-sm px-4 py-2 rounded-lg shadow-sm transition-all duration-150 inline-flex items-center gap-1.5 ml-2">
-    <span class="material-symbols-outlined text-base">person_add</span>
-    <span>Add New User</span>
-  </a>
+  <li>
+    <a href="{% url 'admin:auth_user_add' %}" class="bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 hover:text-sky-300 border border-sky-500/30 hover:border-sky-400/60 font-mono text-xs font-semibold px-3.5 py-2 rounded-xl shadow-[0_0_15px_rgba(56,189,248,0.1)] hover:shadow-[0_0_20px_rgba(56,189,248,0.25)] transition-all duration-200 inline-flex items-center gap-2 ml-2">
+      <span class="material-symbols-outlined text-base">person_add</span>
+      <span class="uppercase tracking-wider">Add New User</span>
+    </a>
+  </li>
 {% endblock %}

@@ -37,11 +37,11 @@ def main():
         print("[INFO] Working directory clean. No changes to push.")
         sys.exit(0)
 
-    print("[1/4] Staging all changes...")
+    print("[1/5] Staging all changes...")
     run_command("git add .", "Failed to stage files using 'git add .'")
 
     # 2. Get commit message from user
-    print("\n[2/4] Enter your commit message:")
+    print("\n[2/5] Enter your commit message:")
     commit_msg = input(" > ").strip()
 
     if not commit_msg:
@@ -50,13 +50,28 @@ def main():
         )
         sys.exit(1)
 
-    print("\n[3/4] Committing changes...")
+    print("\n[3/5] Committing changes...")
     run_command(
         f'git commit -m "{commit_msg}"', "Failed to commit changes."
     )
 
-    # 4. Push to remote repository
-    print("\n[4/4] Pushing changes to remote repository...")
+    # 4. Configure Git buffer size to prevent network timeouts/drops
+    print("\n[4/5] Optimizing Git network buffer settings...")
+    subprocess.run(
+        "git config --global http.postBuffer 524288000",
+        shell=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    subprocess.run(
+        "git config --global compression 0",
+        shell=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
+    # 5. Push to remote repository
+    print("\n[5/5] Pushing changes to remote repository...")
     run_command("git push", "Failed to push to remote repository.")
 
     print("\nSUCCESS: All changes successfully pushed to Git! 🚀")
